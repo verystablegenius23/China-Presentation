@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(ggplot2)
+library(psych)
 ```
 
 ```{r Import Data, include=FALSE, echo=FALSE}
@@ -27,6 +28,13 @@ summary(china_ES_Ach_SB$Frac)
 china_ES_Ach_SB$FracIndex <- (100/(161.02-11.5)) * (china_ES_Ach_SB$Frac - 161.02) + 100
 
 summary(china_ES_Ach_SB$FracIndex)
+
+District <- aggregate(FracIndex, by = list(dstr,gd), data = china_ES_Ach_SB, FUN = mean, na.rm=TRUE)
+
+names(District)[1] <- "District"
+names(District)[2] <- "Grade"
+names(District)[3] <- "FracShare"
+ 
 
 ```
 
