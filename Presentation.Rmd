@@ -61,7 +61,7 @@ District_US <- aggregate(FracIndex, by = list(dstr,gd), data = USESclean, FUN = 
 
 names(District_US)[1] <- "District"
 names(District_US)[2] <- "Grade"
-China)[3] <- "FracShare"
+names(District_US)[3] <- "FracShare"
 
 ```
 
