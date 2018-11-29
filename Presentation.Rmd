@@ -19,22 +19,49 @@ China_ES_Ach_SB_Clean <- read_dta("~/2_MSU/2_Research/PROMISE/00 THE DATA/Interm
 
 china_ES_Ach_SB <- as.data.frame(China_ES_Ach_SB_Clean)
 
+US_ES_Ach_Clean <- read_dta("~/2_MSU/2_Research/PROMISE/00 THE DATA/Intermediate Data/US_ES_Ach_Clean.dta")
+
+US_ES_Ach <- as.data.frame(US_ES_Ach_Clean)
+
 ```
 
 ```{r Fraction Variable Construction, include=FALSE, echo=FALSE}
 china_ES_Ach_SB$Frac <- china_ES_Ach_SB$cat1 + china_ES_Ach_SB$cat2 + china_ES_Ach_SB$cat7
 
+ChinaESclean <- subset(china_ES_Ach_SB, !(Frac > 100))
+
+summary(ChinaESclean$Frac)
+
 summary(china_ES_Ach_SB$Frac)
-china_ES_Ach_SB$FracIndex <- (100/(161.02-11.5)) * (china_ES_Ach_SB$Frac - 161.02) + 100
+ChinaESclean$FracIndex <- (100/(99.99-11.5)) * (ChinaESclean$Frac - 99.99) + 100
 
-summary(china_ES_Ach_SB$FracIndex)
+summary(ChinaESclean$FracIndex)
 
-District <- aggregate(FracIndex, by = list(dstr,gd), data = china_ES_Ach_SB, FUN = mean, na.rm=TRUE)
+District_China <- aggregate(FracIndex, by = list(dstr,gd), data = ChinaESclean, FUN = mean, na.rm=TRUE)
 
-names(District)[1] <- "District"
-names(District)[2] <- "Grade"
-names(District)[3] <- "FracShare"
- 
+names(District_China)[1] <- "District"
+names(District_China)[2] <- "Grade"
+names(District_China)[3] <- "FracShare"
+
+US_ES_Ach$Frac <- US_ES_Ach$ct1 + US_ES_Ach$ct2 + US_ES_Ach$ct7 
+summary(US_ES_Ach$Frac)
+
+USESclean <- subset(US_ES_Ach, !(Frac > 100))
+
+USESclean$FracIndex <- (100/(100-21.81)) * (USESclean$Frac - 100) + 100
+summary(USESclean$FracIndex)
+
+USESclean <- as.data.frame(USESclean)
+
+names(USESclean)[3] <- "dstr"
+names(USESclean)[5] <- "gd"
+
+attach(USESclean)
+District_US <- aggregate(FracIndex, by = list(dstr,gd), data = USESclean, FUN = mean, na.rm=TRUE)
+
+names(District_US)[1] <- "District"
+names(District_US)[2] <- "Grade"
+China)[3] <- "FracShare"
 
 ```
 
